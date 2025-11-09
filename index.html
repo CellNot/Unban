@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajukan Banding WhatsApp - Nux</title>
+
+<style>
+/* CSS Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f06, #4a90e2);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    color: #f06;
+    text-shadow: 0 0 10px rgba(255, 0, 102, 0.7);
+}
+
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input[type="text"]:focus,
+select:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    outline: none;
+    box-shadow: 0 0 0 3px #4a90e2;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #f06;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background-color: #ff3388;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 0, 102, 0.4);
+}
+
+.footer-text {
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 25px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    button {
+        padding: 12px 20px;
+        font-size: 1.1em;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ajukan Banding WhatsApp</h1>
+
+    <div class="input-group">
+        <label for="whatsappNumber">Nomor WhatsApp (+62 xxx-xxxx-xxxx):</label>
+        <input type="text" id="whatsappNumber" placeholder="+62 812-3456-7890">
+    </div>
+
+    <div class="input-group">
+        <label for="appealType">Pilih Jenis Banding:</label>
+        <select id="appealType">
+            <option value="" disabled selected>Pilih jenis...</option>
+            <option value="PERMANEN">PERMANEN</option>
+            <option value="SPAM">SPAM</option>
+        </select>
+    </div>
+
+    <button id="sendAppeal">KIRIM BANDING</button>
+
+    <div class="footer-text">
+        <p>Unban by nux | tunggu 24 jam</p>
+    </div>
+</div>
+
+<script>
+// JavaScript Logic
+document.getElementById('sendAppeal').addEventListener('click', function() {
+    const whatsappNumberInput = document.getElementById('whatsappNumber');
+    const appealTypeSelect = document.getElementById('appealType');
+
+    let whatsappNumber = whatsappNumberInput.value.trim();
+    const appealType = appealTypeSelect.value;
+
+    if (!whatsappNumber) {
+        alert('Mohon masukkan Nomor WhatsApp Anda.');
+        whatsappNumberInput.focus();
+        return;
+    }
+    if (!appealType) {
+        alert('Mohon pilih jenis banding.');
+        appealTypeSelect.focus();
+        return;
+    }
+
+    whatsappNumber = whatsappNumber.replace(/[-\s]/g, '');
+
+    if (whatsappNumber.startsWith('0')) {
+        whatsappNumber = '62' + whatsappNumber.substring(1);
+    }
+    if (whatsappNumber.startsWith('+0')) {
+        whatsappNumber = '+62' + whatsappNumber.substring(2);
+    }
+
+    let subject = '';
+    let body = '';
+    const recipient = 'support@whatsapp.com';
+
+    if (appealType === 'PERMANEN') {
+        const numberForPermanentBody = whatsappNumber.startsWith('+') ? whatsappNumber.substring(1) : whatsappNumber;
+        const numberForPermanentSubject = whatsappNumber.startsWith('+') ? whatsappNumber : `+${numberForPermanentBody}`;
+
+        subject = `Appeal for Permanent Account Ban - WhatsApp Business Account (${numberForPermanentSubject})`;
+        body = `I'm Nux, and I'm writing to appeal the permanent ban on my WhatsApp Business account, which was blocked several months ago. Despite multiple appeals to WhatsApp Business support via email, I haven't received a helpful response.
+
+My account was blocked for allegedly violating WhatsApp Business chat policy and commerce policy. However, I only use WhatsApp Business for legitimate online sales, without spamming or disturbing others. I understand there might have been some unintentional spam, but it was not excessive or disruptive.
+
+I'm respectfully requesting a review of my account ban, as I need WhatsApp Business for my online business. I assure you that I haven't intentionally violated any WhatsApp Business policies or Meta's commerce policies.
+
+My account details:
+WhatsApp Business Number: ${numberForPermanentBody}
+Appeal Link: (wa.me/support)
+
+I kindly request your assistance in reviewing and lifting the ban on my account. I appreciate your help and look forward to a resolution.
+
+Sincerely,
+Nux`;
+    } else if (appealType === 'SPAM') {
+        const numberForSpamBody = whatsappNumber.startsWith('+') ? whatsappNumber : `+${whatsappNumber}`;
+
+        subject = `WhatsApp number report banned by spam`;
+        body = `Hello WhatsApp Support Team, I'd like to request assistance because my WhatsApp account is unusable. When I try to log in, a message appears that I need to use the official app. I always use apps from the Play Store and never use unofficial versions. This is most likely a system error. I sincerely hope the WhatsApp team can help review and reactivate my account with the number ${numberForSpamBody}. Thank you very much for your attention and time.`;
+    }
+
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+
+    const mailtoLink = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+    window.location.href = mailtoLink;
+});
+</script>
+
+</body>
+</html>
